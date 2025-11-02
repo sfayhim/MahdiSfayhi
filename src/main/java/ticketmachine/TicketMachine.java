@@ -63,32 +63,45 @@ public class TicketMachine {
 	 * @throws IllegalArgumentException if amount is not positive
 	 */
 	public void insertMoney(int amount) {
+		if (amount <= 0) {
+			throw new IllegalArgumentException("Le montant inséré doit être positif");
+		}
 		balance = balance + amount;
 	}
 
 	/**
-	 * Refunds the balance to customer
+	 * Refunds the balance to customer and resets the balance to zero
 	 *
-	 * @return the balance
+	 * @return the amount refunded
 	 */
 	public int refund() {
+		int amountToRefund = balance;
 		System.out.println("Je vous rends : " + balance + " centimes");
-		return balance;
+		balance = 0;
+		return amountToRefund;
 	}
 
 	/**
-	 * Print a ticket. Update the total collected and reduce the balance 
+	 * Print a ticket if enough money is inserted.
+	 * Updates the total collected and reduces the balance when successful.
 	 *
-	 * @return vrai si le ticket a été imprimé, faux sinon
+	 * @return true if the ticket was printed, false if not enough money was inserted
 	 */
 	public boolean printTicket() {
-		// Simulate the printing of a ticket.
-		System.out.println("##################");
-		System.out.println("# The BlueJ Line");
-		System.out.println("# Ticket");
-		System.out.println("# " + price + " cents.");
-		System.out.println("##################");
-		System.out.println();
-		return true;
+		if (balance >= price) {
+			// Simulate the printing of a ticket.
+			System.out.println("##################");
+			System.out.println("# The BlueJ Line");
+			System.out.println("# Ticket");
+			System.out.println("# " + price + " cents.");
+			System.out.println("##################");
+			System.out.println();
+			
+			// Update the total and balance
+			total += price;
+			balance -= price;
+			return true;
+		}
+		return false;
 	}
 }
